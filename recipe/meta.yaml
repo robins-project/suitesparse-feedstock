@@ -25,6 +25,7 @@ requirements:
     - {{ compiler("c") }}
     - {{ compiler("cxx") }}
     - cmake
+    - ninja # [win]
   host:
     - metis
     - {{ blas_impl }}-devel
@@ -69,20 +70,21 @@ test:
     - test -f ${PREFIX}/lib/libsuitesparseconfig.a
     - test -f ${PREFIX}/lib/libumfpack.a
     {% else %}
-    - IF NOT EXIST %LIBRARY_LIB%\libGPUQREngine.lib exit 1            # [cuda_impl == 'cuda']
-    - IF NOT EXIST %LIBRARY_LIB%\libSuiteSparse_GPURuntime.lib exit 1 # [cuda_impl == 'cuda']
-    - IF NOT EXIST %LIBRARY_LIB%\libamd.lib exit 1
-    - IF NOT EXIST %LIBRARY_LIB%\libbtf.lib exit 1
-    - IF NOT EXIST %LIBRARY_LIB%\libcamd.lib exit 1
-    - IF NOT EXIST %LIBRARY_LIB%\libccolamd.lib exit 1
-    - IF NOT EXIST %LIBRARY_LIB%\libcholmod.lib exit 1
-    - IF NOT EXIST %LIBRARY_LIB%\libcolamd.lib exit 1
-    - IF NOT EXIST %LIBRARY_LIB%\libcxsparse.lib exit 1
-    - IF NOT EXIST %LIBRARY_LIB%\libgraphblas.lib exit 1
-    - IF NOT EXIST %LIBRARY_LIB%\libklu.lib exit 1
-    - IF NOT EXIST %LIBRARY_LIB%\libldl.lib exit 1
-    - IF NOT EXIST %LIBRARY_LIB%\libspqr.lib exit 1
-    - IF NOT EXIST %LIBRARY_LIB%\libumfpack.lib exit 1
+    - IF NOT EXIST %LIBRARY_LIB%\GPUQREngine.lib exit 1            # [cuda_impl == 'cuda']
+    - IF NOT EXIST %LIBRARY_LIB%\SuiteSparse_GPURuntime.lib exit 1 # [cuda_impl == 'cuda']
+    - IF NOT EXIST %LIBRARY_LIB%\amd.lib exit 1
+    - IF NOT EXIST %LIBRARY_LIB%\btf.lib exit 1
+    - IF NOT EXIST %LIBRARY_LIB%\camd.lib exit 1
+    - IF NOT EXIST %LIBRARY_LIB%\ccolamd.lib exit 1
+    - IF NOT EXIST %LIBRARY_LIB%\cholmod.lib exit 1
+    - IF NOT EXIST %LIBRARY_LIB%\colamd.lib exit 1
+    - IF NOT EXIST %LIBRARY_LIB%\cxsparse.lib exit 1
+    # - IF NOT EXIST %LIBRARY_LIB%\graphblas.lib exit 1
+    - IF NOT EXIST %LIBRARY_LIB%\klu.lib exit 1
+    - IF NOT EXIST %LIBRARY_LIB%\ldl.lib exit 1
+    - IF NOT EXIST %LIBRARY_LIB%\spqr.lib exit 1
+    - IF NOT EXIST %LIBRARY_LIB%\suitesparseconfig.lib exit 1
+    - IF NOT EXIST %LIBRARY_LIB%\umfpack.lib exit 1
     {% endif %}
 
 about:
