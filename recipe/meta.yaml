@@ -9,8 +9,6 @@ source:
     fn: suitesparse_cmake_setup.zip                                                        # [win]
   - url: http://faculty.cse.tamu.edu/davis/SuiteSparse/SuiteSparse-{{ version }}.tar.gz
     sha256: 3c46c035ea8217649958a0f73360e825b0c9dcca4e32a9349d2c7678c0d48813
-    # patches:
-    #   - 0001-only-build-UMFPACK-library.patch
     # nest folder on Windows so that it clobbers the older stuff from the cmake build that vendors it
     folder: SuiteSparse-to-move                                                            # [win]
 
