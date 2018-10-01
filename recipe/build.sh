@@ -1,14 +1,14 @@
 #!/bin/bash
 
 CUDA=no
-if [ "$with_cuda" == "true" ]; then
+if [ "$cuda_impl" == "cuda" ]; then
     CUDA=yes
     # build with c++98
-    export CXXFLAGS=$(echo $CXXFLAGS | sed "s/-std=c++17/-std=c++98/")
+    # export CXXFLAGS=$(echo $CXXFLAGS | sed "s/-std=c++17/-std=c++98/")
+    export CPPFLAGS="$CPPFLAGS -std=c++98"
 fi
 export CUDA
 
-export CPPFLAGS="$CXXFLAGS -I${PREFIX}/include"
 export CMAKE_OPTIONS="-DCMAKE_INSTALL_PREFIX:PATH=${PREFIX}"
 
 export INCLUDE_PATH="${PREFIX}/include"
@@ -57,7 +57,7 @@ cp ${SRC_DIR}/SPQR/Lib/libspqr.a ${PREFIX}/lib
 cp ${SRC_DIR}/SuiteSparse_config/libsuitesparseconfig.a ${PREFIX}/lib
 cp ${SRC_DIR}/UMFPACK/Lib/libumfpack.a ${PREFIX}/lib
 
-if [ "$with_cuda" == "true" ]; then
+if [ "$cuda_impl" == "cuda" ]; then
     cp ${SRC_DIR}/SuiteSparse_GPURuntime/Lib/libSuiteSparse_GPURuntime.a ${PREFIX}/lib
     cp ${SRC_DIR}/GPUQREngine/Lib/libGPUQREngine.a ${PREFIX}/lib
 fi

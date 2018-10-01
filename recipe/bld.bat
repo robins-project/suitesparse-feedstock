@@ -4,13 +4,13 @@ Robocopy "%SRC_DIR%\SuiteSparse-to-move" "%SRC_DIR%\SuiteSparse" /E /S /MOV
 set "CMAKE_INCLUDE_PATH=%LIBRARY_INC%"
 set "CMAKE_LIBRARY_PATH=%LIBRARY_LIB%"
 
-if "%with_cuda%"" == "true"
+if "%cuda_impl%" == "cuda"
 (
-      set "CMAKE_WITH_CUDA=ON"
+      set "CUDA=ON"
 )
 else
 (
-      set "CMAKE_WITH_CUDA=OFF"
+      set "CUDA=OFF"
 )
 
 mkdir build
@@ -25,7 +25,7 @@ cmake -G "%CMAKE_GENERATOR%" ^
       -D SUITESPARSE_USE_CUSTOM_BLAS_LAPACK_LIBS=ON  ^
       -D SUITESPARSE_CUSTOM_BLAS_LIB=%LIBRARY_LIB:\=/%/mkl_rt.lib    ^
       -D SUITESPARSE_CUSTOM_LAPACK_LIB=%LIBRARY_LIB:\=/%/mkl_rt.lib  ^
-      -D WITH_CUDA:BOOL=%CMAKE_WITH_CUDA% ^
+      -D WITH_CUDA:BOOL=%CUDA% ^
       ..
 if errorlevel 1 exit 1
 

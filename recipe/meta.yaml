@@ -9,15 +9,16 @@ source:
     fn: suitesparse_cmake_setup.zip                                                        # [win]
   - url: http://faculty.cse.tamu.edu/davis/SuiteSparse/SuiteSparse-{{ version }}.tar.gz
     sha256: 3c46c035ea8217649958a0f73360e825b0c9dcca4e32a9349d2c7678c0d48813
-    patches:
-      - 0001-only-build-UMFPACK-library.patch
+    # patches:
+    #   - 0001-only-build-UMFPACK-library.patch
     # nest folder on Windows so that it clobbers the older stuff from the cmake build that vendors it
     folder: SuiteSparse-to-move                                                            # [win]
 
 build:
   number: 0
   features:
-    - cuda                           # [ with_cuda ]
+    - feature_cuda_{{ cuda_impl }}
+    - feature_blas_{{ blas_impl }}
   run_exports:
     - {{ pin_subpackage("suitesparse") }}
 
@@ -28,18 +29,17 @@ requirements:
     - cmake
   host:
     - metis
-    - mkl-devel  {{ mkl }}           # [blas_impl == 'mkl']
-    - openblas-devel {{ openblas }}  # [blas_impl == 'openblas']
+    - {{ blas_impl }}-devel
     - tbb-devel
-    - cuda                           # [ with_cuda ]
   run:
-    - cuda                           # [ with_cuda ]
+    - feature_blas {{ feature_blas }} {{ blas_impl }}
+    - feature_cuda {{ feature_cuda }} {{ cuda_impl }}
 
 test:
   commands:
     {% if unix %}
-    - test -f ${PREFIX}/lib/libGPUQREngine${SHLIB_EXT}                # [with_cuda]
-    - test -f ${PREFIX}/lib/libSuiteSparse_GPURuntime${SHLIB_EXT}     # [with_cuda]
+    - test -f ${PREFIX}/lib/libGPUQREngine${SHLIB_EXT}                # [cuda_impl == 'cuda']
+    - test -f ${PREFIX}/lib/libSuiteSparse_GPURuntime${SHLIB_EXT}     # [cuda_impl == 'cuda']
     - test -f ${PREFIX}/lib/libamd${SHLIB_EXT}
     - test -f ${PREFIX}/lib/libbtf${SHLIB_EXT}
     - test -f ${PREFIX}/lib/libcamd${SHLIB_EXT}
@@ -54,8 +54,8 @@ test:
     - test -f ${PREFIX}/lib/libspqr${SHLIB_EXT}
     - test -f ${PREFIX}/lib/libsuitesparseconfig${SHLIB_EXT}
     - test -f ${PREFIX}/lib/libumfpack${SHLIB_EXT}
-    - test -f ${PREFIX}/lib/libGPUQREngine.a                          # [with_cuda]
-    - test -f ${PREFIX}/lib/libSuiteSparse_GPURuntime.a               # [with_cuda]
+    - test -f ${PREFIX}/lib/libGPUQREngine.a                          # [cuda_impl == 'cuda']
+    - test -f ${PREFIX}/lib/libSuiteSparse_GPURuntime.a               # [cuda_impl == 'cuda']
     - test -f ${PREFIX}/lib/libamd.a
     - test -f ${PREFIX}/lib/libbtf.a
     - test -f ${PREFIX}/lib/libcamd.a
@@ -71,8 +71,8 @@ test:
     - test -f ${PREFIX}/lib/libsuitesparseconfig.a
     - test -f ${PREFIX}/lib/libumfpack.a
     {% else %}
-    - IF NOT EXIST %LIBRARY_LIB%\libGPUQREngine.lib exit 1            # [with_cuda]
-    - IF NOT EXIST %LIBRARY_LIB%\libSuiteSparse_GPURuntime.lib exit 1 # [with_cuda]
+    - IF NOT EXIST %LIBRARY_LIB%\libGPUQREngine.lib exit 1            # [cuda_impl == 'cuda']
+    - IF NOT EXIST %LIBRARY_LIB%\libSuiteSparse_GPURuntime.lib exit 1 # [cuda_impl == 'cuda']
     - IF NOT EXIST %LIBRARY_LIB%\libamd.lib exit 1
     - IF NOT EXIST %LIBRARY_LIB%\libbtf.lib exit 1
     - IF NOT EXIST %LIBRARY_LIB%\libcamd.lib exit 1
