@@ -28,7 +28,7 @@ else
 fi
 
 # export environment variable so SuiteSparse will use the METIS built above
-# export MY_METIS_INC="${PREFIX}/include"
+export MY_METIS_INC="${PREFIX}/include"
 export MY_METIS_LIB="-L${PREFIX}/lib -lmetis"
 
 export TBB=-ltbb
