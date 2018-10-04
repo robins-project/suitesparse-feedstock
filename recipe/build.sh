@@ -9,6 +9,7 @@ if [ "$cuda_impl" == "cuda" ]; then
 fi
 export CUDA
 
+export CPPFLAGS="$CXXFLAGS -I${PREFIX}/include"
 export CMAKE_OPTIONS="-DCMAKE_INSTALL_PREFIX:PATH=${PREFIX}"
 
 export INCLUDE_PATH="${PREFIX}/include"
