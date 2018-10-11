@@ -4,7 +4,7 @@ CUDA=no
 if [ "$cuda_impl" == "cuda" ]; then
     CUDA=yes
     # build with c++98
-    export CXXFLAGS=$(echo $CXXFLAGS | sed "s/-std=c++17/-std=c++98/")
+    export CXXFLAGS=$(echo $CXXFLAGS | sed "s/-std=c++[0-9][0-9]/-std=c++98/")
     export CPPFLAGS="$CPPFLAGS -std=c++98"
 fi
 export CUDA
