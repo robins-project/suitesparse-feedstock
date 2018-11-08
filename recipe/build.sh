@@ -20,8 +20,11 @@ export INSTALL_LIB="${PREFIX}/lib"
 export INSTALL_INCLUDE="${PREFIX}/include"
 
 if [ "$blas_impl" == "mkl" ]; then
-    export BLAS="-lmkl_rt"
-    export LAPACK="-lmkl_rt"
+    # export BLAS="-lmkl_rt"
+    # export LAPACK="-lmkl_rt"
+    export BLAS=
+    export LAPACK=
+    export MKLROOT=${PREFIX}
 elif [ "$blas_impl" == "openblas" ]; then
     export BLAS="-lopenblas"
     export LAPACK="-lopenblas"
